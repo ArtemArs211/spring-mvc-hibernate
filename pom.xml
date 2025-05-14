@@ -83,7 +83,7 @@
 
   </dependencies>
   <build>
-    <finalName>PP_2.3.1._Spring_MVC_Hibernate</finalName>
+    <finalName>Spring_MVC</finalName>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (maybe moved to parent pom) -->
       <plugins>
         <plugin>

@@ -1,25 +1,35 @@
 package web.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import web.model.User;
 import web.service.UserService;
 
+import java.util.List;
+
 
 @Controller
 @RequestMapping("/users")
 public class UserController {
 
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+
     private final UserService userService;
 
+    @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
 
     @GetMapping
-    public String listUsers(Model model) {
-        model.addAttribute("users", userService.getAllUsers());
+    public String getAllUsers(Model model) {
+        List<User> users = userService.getAllUsers();
+        logger.info("Users count: {}", users.size());
+        model.addAttribute("users", users);
         return "users/list";
     }
 
@@ -29,7 +39,7 @@ public class UserController {
         return "users/create";
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public String createUser(@ModelAttribute User user) {
         userService.saveUser(user);
         return "redirect:/users";
@@ -38,6 +48,9 @@ public class UserController {
     @GetMapping("/edit")
     public String showEditForm(@RequestParam("id") Long id, Model model) {
         User user = userService.getUserById(id);
+        if (user == null) {
+            return "redirect:/error";
+        }
         model.addAttribute("user", user);
         return "users/edit";
     }
@@ -46,13 +59,6 @@ public class UserController {
     public String updateUser(@ModelAttribute User user) {
         userService.updateUser(user);
         return "redirect:/users";
-    }
-
-    @GetMapping("/delete")
-    public String showDeleteConfirmation(@RequestParam("id") Long id, Model model) {
-        User user = userService.getUserById(id);
-        model.addAttribute("user", user);
-        return "users/delete";
     }
 
     @PostMapping("/delete")

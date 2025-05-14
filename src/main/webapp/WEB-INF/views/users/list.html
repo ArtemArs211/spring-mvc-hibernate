@@ -2,12 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>User List</title>
+    <title>Users List</title>
 </head>
 <body>
-<h1>User List</h1>
-<a th:href="@{/users/new}">Create New User</a>
-<table border="1">
+<h1>Users</h1>
+<table>
     <tr>
         <th>ID</th>
         <th>Name</th>
@@ -23,10 +22,14 @@
         <td th:text="${user.age}"></td>
         <td th:text="${user.email}"></td>
         <td>
-            <a th:href="@{/users/edit(id=${user.id})}">Edit</a>
-            <a th:href="@{/users/delete(id=${user.id})}">Delete</a>
+            <a th:href="@{/users/edit?id=${user.id}}">Edit</a>
+            <form th:action="@{/users/delete}" method="post" style="display:inline;">
+                <input type="hidden" name="id" th:value="${user.id}">
+                <button type="submit">Delete</button>
+            </form>
         </td>
     </tr>
 </table>
+<a th:href="@{/users/new}">Add New User</a>
 </body>
 </html>
