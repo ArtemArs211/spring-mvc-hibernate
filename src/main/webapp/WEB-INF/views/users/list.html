@@ -10,19 +10,15 @@
     <tr>
         <th>ID</th>
         <th>Name</th>
-        <th>Lastname</th>
-        <th>Age</th>
         <th>Email</th>
         <th>Actions</th>
     </tr>
     <tr th:each="user : ${users}">
         <td th:text="${user.id}"></td>
         <td th:text="${user.name}"></td>
-        <td th:text="${user.lastname}"></td>
-        <td th:text="${user.age}"></td>
         <td th:text="${user.email}"></td>
         <td>
-            <a th:href="@{/users/edit?id=${user.id}}">Edit</a>
+            <a th:href="@{'/users/edit?id=' + ${user.id}}">Edit</a>
             <form th:action="@{/users/delete}" method="post" style="display:inline;">
                 <input type="hidden" name="id" th:value="${user.id}">
                 <button type="submit">Delete</button>

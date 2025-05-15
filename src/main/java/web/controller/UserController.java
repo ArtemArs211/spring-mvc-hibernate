@@ -48,8 +48,9 @@ public class UserController {
     @GetMapping("/edit")
     public String showEditForm(@RequestParam("id") Long id, Model model) {
         User user = userService.getUserById(id);
+        logger.debug("Editing user with id: {}", id);
         if (user == null) {
-            return "redirect:/error";
+            return "redirect:/users?error=user_not_found";
         }
         model.addAttribute("user", user);
         return "users/edit";
